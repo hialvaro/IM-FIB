@@ -17,6 +17,9 @@ Resum amb el contingut més important de cara a l'exàmen final. Elaborat 1 dia 
   - [Modulación Multiportadora](#modulación-multiportadora)
   - [OFDM (Overlapping Channels)](#ofdm-overlapping-channels)
   - [MIMO](#mimo)
+- [Bluetooth Low Energy (BLE)](#bluetooth-low-energy-ble)
+  - [GAP](#gap)
+  - [GATT](#gatt)
 
 ## Wireless Communication
 
@@ -455,4 +458,76 @@ Al coger el canal de 20MHz en OFDM y partirlo en 64 subcanales lo que haremos es
 
 A causa de esto la tasa de transmisión no es constante.
 
+
 ### MIMO
+
+Usar múltiples antenas en el transmisor y el receptor. Se utiliza para tener una mejor ganancia de diversidad. Como hay mucha más divercidad es mucho más probable que no haya atenuación.
+
+También se puede tener una ganancia de multiplexación y, al igual que com OFDM, romper con los límites de Shannon. Utiliza la atenuación multitrayecto en su favor para tener más símbolos por segundo.
+
+![](https://i.imgur.com/5bMfGoN.png)
+
+Usando esto de aquí, podemos transmitir símbolos a la vez y en la misma banda de frecuencia y recuperar estos símbolos por separado aumentando la capacidad del canal. Usando MIMO podemos transmitir al doble de la velocidad. Si tenemos `n` antenas en el receptor o `n` antenas en el transmisor (1xN // Nx1) estamos multiplicando por un factor de `n` la relación SNR. 
+
+Si usamos mimo mejoramos nuestra SNR en un factor `n²` (NxN).
+
+Solo a costa de tener una electronica más complicada y sin aumentar el ancho de banda o la potencia aumentamos la capacidad del canal, por lo que compensa tener más antenas.
+
+MIMO se puede usar para ganar diversidad (menor sensibilidad al multipath fading) o para la multiplexación (mejor SNR y una eficiencia espectral mayor). Pero hay un tradeoff entre las dos.
+
+
+## Bluetooth Low Energy (BLE)
+
+Bluetooth SIG es quien desarrolla la tecnologia bluetooth. En 2010 se introdujo la version 4.0 que es la que veremos.
+
+El nivel físico de bluetooth consiste en transmision en la banda ISM. Hay 40 canales de 2MHz (3 canales para advertising y 37 para transmision de paquetes de datos).
+
+R = 125Kbps, 1Mbps son las velocidadas de transmisión, aunque el throughput es menor.
+
+La potencia máxima es 10mW o 100mW en BT5
+
+La distancia máxima teorica es de 100m aunque en realidad es mucho menos.
+
+Un beacon puede funcionar muchos meses con una pequeña batería.
+
+En Bluetooth se usa un stack distinto al de TCP/IP.
+
+![](https://i.imgur.com/TShkwLY.png)
+
+### GAP
+
+En bluetooth hay dos fases. La primera estamos en advertising, descubrimos los dispositivos bluetooth. Esta primera fase se gobierna por GAP (Generic Access Profile). El GAP define como se controla el descubrimiento y la conexión entre dos dispositivos.
+
+En GAP hay dos roles: periféricos (dispositivos con pocos recursos) y centrales (un smartphone).
+
+Durante la fase de descubrimiento hay un intercambio de paquetes pequeños de 31bytes y tambien otros tipos de paquetes relativos a los escaneos (Scan Response) del mismo tamaño. Estos paquetes se envian en 3 canales específicos; los dispositivos envian estos paquetes por esos canales en un cierto intervalo (advertising interval). El escáner escucha en estos canales durante un tiempo (scan window) durante un cierto tiempo (scan interval).
+
+Los paquetes de advertiser pueden ser de 4 tipos:
+
+- **ADV_IND** Advertising Indications, indica que esta preparado para conectarse con cualquier dispositvo central.
+- **ADV_DIRECT_IND** El periferico pide una conexión con un dispositivo central específico.
+- **ADV_NONCONN_IND** Dispositivos NO conectables, solo mandan algun tipo de informacion a los dispositivos que escuchan.
+- **ADV_SCAN_IND** Es similar al anterior, pero tiene la opción de mandar información adicional. Los dispositivos envian un scan pero estan dispuestos a mandar más info si se los requiere.
+
+Los paquetes de esta fase tienen un tamaño máximo de 31 bytes y el payload lleva 1 o más "AD structures": length, type y data.
+
+Los dispositivos bluetooth en la fase de advertising pueden indicar varias cosas: Su nombre, el servicio que dan (a través de UUIDs estandarizados...).
+
+### GATT
+
+Es el que gobierna la transferencia de datos bidireccional de dos dispositivos que ya han pasado por la fase GAP. Hace uso de un protocolo genérico llamado ATT (Attribute Protocol) el cual se usa para guardar información (atributos) en una pequeña base de datos simple en el dispositivo servidor usando IDs de 16bits para cada entrada de la tabla.
+
+El formato estandar de estos atributos son:
+
+- Id único del atributo (16b)
+- Identificador del tipo de atributo (UUID)
+- Valor
+- Permisos del atributo (Read/Write/Security)
+
+Los dispositivos tienen una función predeterminada. Se definen perfiles que son una colección de servicios predefinidos por Bluetooth SIG. GAP y GATT son perfiles genéricos soportdos en todos los dispositivos BLE. Puede haver, por ejemplo, un dispositivo como perfil _Heart Rate_ que combina el _Heart Rate Service_ y  el _Device Information Service_. Este perfil se compone de 2 servicios.
+
+Un dispositivo puede contener distintos perfiles. Existen muchos perfiles distintos (Presion sanguínea, Cycling Speed, Heart Rate...)
+
+Los servicios definen una serie de datos asociados al servicio, estos datos se llaman caracteristicas. Un servicio suele tener distintas caracteristicas (una o más). Los servicios se caracterizan por una UUID (16b cuando son estandares) o 128b cuando son creados por el usuario.
+
+En GATT se establecen dos roles: el servidor y el cliente. El server recibe comandos y peticiones GATT y devuelve respuestas hacia el cliente.
