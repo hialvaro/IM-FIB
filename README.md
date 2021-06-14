@@ -3,6 +3,52 @@
 Resum amb el contingut més important de cara a l'exàmen final. Elaborat 1 dia abans d'aquest.
 
 ## Continguts
+# Table of contents
+
+- [Wireless Communication](#wireless-communication)
+  - [Introducción](#introducción)
+- [Transmisión a distancia mediante radio](#transmisión-a-distancia-mediante-radio)
+  - [Las Señales](#las-señales)
+  - [Atenuación](#atenuación)
+  - [Atenuación](#atenuación)
+    - [Reflexión](#reflexión)
+    - [Difracción](#difracción)
+    - [Zona de Fresnel](#zona-de-fresnel)
+    - [Scattering](#scattering)
+    - [Multipath Fading](#multipath-fading)
+  - [Ruido](#ruido)
+  - [Modulación multinivel](#modulación-multinivel)
+  - [Códigos de corrección de errores](#códigos-de-corrección-de-errores)
+  - [Capacidad del canal](#capacidad-del-canal)
+- [OFDM y MIMO](#ofdm-y-mimo)
+    - [Delay spread](#delay-spread)
+  - [Modulación Multiportadora](#modulación-multiportadora)
+  - [OFDM (Overlapping Channels)](#ofdm-overlapping-channels)
+    - [802.11a @54Mbps (3/4 64QAM)](#80211a-54mbps-34-64qam)
+  - [Diversidad](#diversidad)
+  - [MIMO](#mimo)
+- [Bluetooth Low Energy (BLE)](#bluetooth-low-energy-ble)
+  - [GAP](#gap)
+  - [GATT](#gatt)
+- [Sensores IMU](#sensores-imu)
+  - [Sensores inerciales](#sensores-inerciales)
+  - [Sensores MEMS](#sensores-mems)
+    - [Accelerometro](#accelerometro)
+  - [Magnetómetro (Sensor de campo magnético)](#magnetmetro-sensor-de-campo-magntico)
+  - [Giroscopio](#giroscopio)
+  - [Conclusión](#conclusión)
+- [Rotaciones: Orientación Relativa y Absoluta](#rotaciones-orientación-relativa-y-absoluta)
+  - [Rotaciones 3D](#rotaciones-3d)
+  - [Rotaciones relativas](#rotaciones-relativas)
+  - [Rotaciones absolutas](#rotaciones-absolutas)
+- [Redes Celulares (4G / LTE, 2G y 3G)](#redes-celulares-4g--lte-2g-y-3g)
+  - [Acceso múltiple](#acceso-mltiple)
+    - [TDMA Acceso Múltiple por Divisón de Tiempo](#tdma-acceso-mltiple-por-división-de-tiempo)
+    - [FDMA División de Frecuencia](#fdma-división-de-frecuencia)
+    - [CDMA Code Division Multipe Access](#cdma-code-division-multipe-access)
+    - [4G (LTE)](#4g-lte)
+- [Mobile Packet Core](#mobile-packet-core)
+
 - [Wireless Communication](#wireless-communication)
   - [Introducción](#introducción)
 - [Transmisión a distancia mediante radio](#transmisión-a-distancia-mediante-radio)
@@ -17,9 +63,6 @@ Resum amb el contingut més important de cara a l'exàmen final. Elaborat 1 dia 
   - [Modulación Multiportadora](#modulación-multiportadora)
   - [OFDM (Overlapping Channels)](#ofdm-overlapping-channels)
   - [MIMO](#mimo)
-- [Bluetooth Low Energy (BLE)](#bluetooth-low-energy-ble)
-  - [GAP](#gap)
-  - [GATT](#gatt)
 
 ## Wireless Communication
 
@@ -442,7 +485,7 @@ R = 48 subportadoras * 1 símbolo de subportadora / 4usecs * 6 bits/subportadora
 
 Tenemos 48 subportadoras cada una lleva 1/4usec símbolos por segundo, cada símbolo de cada subportadora lleva 6 bits de los cuales hay 3 bits de información por cada 4 bits transmitidos.
 
-#### Diversidad
+### Diversidad
 
 Es la técnica principal usada en los sistemas wireless para solucionar el problema de los canales inalámbricos variables (multipath fading).
 
@@ -450,14 +493,13 @@ Esta técnica consiste en usar transmisiones redundantes de modo que la probabil
 
 Una forma de tener diversidad es usar un sistema de transmisión que para una portadora tiene una interferencia destructiva, si cambiamos la frecuencia portadora es muy posible que para esta nueva no sea destructiva.
 
-OFDM emplea esta propiedad para luchar contra la atenuación.
+OFDM se puede utilizar como técnica de diversidad empleando esta propiedad para luchar contra la atenuación.
 
 Otra forma de conseguir diversidad es usar varias antenas en la transmisión y/o en la recepción. Al transmitir desde distintos lugares provoca que no haya tanta posibilidad de que en todas coincida una interferencia destructiva.
 
 Al coger el canal de 20MHz en OFDM y partirlo en 64 subcanales lo que haremos es transmitir los bits por los canales dónde la interferencia es constructiva y evitar los canales dónde las interferencias son destructivas. Como podemos saber como son las interferencias? De los 64 subcanales solo usamos 48, estos otros canales se envian señales de amplitud conocida para detectar las atenuaciones e interferencias y centrar la transmisión en los mejores canales. De esta forma puedes tener diversidad al usar frecuencias portadoras distintas.
 
 A causa de esto la tasa de transmisión no es constante.
-
 
 ### MIMO
 
@@ -531,3 +573,202 @@ Un dispositivo puede contener distintos perfiles. Existen muchos perfiles distin
 Los servicios definen una serie de datos asociados al servicio, estos datos se llaman caracteristicas. Un servicio suele tener distintas caracteristicas (una o más). Los servicios se caracterizan por una UUID (16b cuando son estandares) o 128b cuando son creados por el usuario.
 
 En GATT se establecen dos roles: el servidor y el cliente. El server recibe comandos y peticiones GATT y devuelve respuestas hacia el cliente.
+
+## Sensores IMU
+
+Con la creación del primer iPhone se añadieron varios sensores para distintos casos. Actualmente los sensores son altamente usados por todos los fabricantes y sistemas operativos.
+
+### Sensores inerciales
+
+Los sensores inerciales tienen que ver con la posición y movimiento de un dispositivo. Cuando un sensor manda información siempre lo hace en referencia al sistema de coordenadas concreto. El vertical del móvil Android (abajo arriba) es el eje `y`, en horizontal (derecha izquierda) es el eje `x` y saliendo de la pantalla del móvil es el eje `z`.
+
+Los movimientos respecto al eje son: pitch (`x`), roll (`y`) y Yaw (`z`). Para el símbolo se usa siempre la regla de la mano derecha (pulgar apunta eje, dedos nos dan el positivo).
+
+En Realidad Aumentada nos orientamos respecto al eje global de la tierra (sistema de coordenadas de la tierra). Es importante saber si apunto al norte, este, etc. Lo que apunta hacia el norte magnético es el eje `y`, hacia el este el `x` y en la vertical de la tierra el `z`.
+
+### Sensores MEMS
+
+Combinan componentes electrónicos y mecánicos. Permiten crear sensores muy pequeños, consumos muy bajos y costes muy baratos.
+
+![](https://i.imgur.com/aDU3mbi.png)
+
+Por ejemplo un acelerometro; tenemos un material con una cierta masa fijada en unos ejes ciertamente elásticos que permiten movimiento. Una parte del dispositivo se desplaza y al moverse las placas se mueven respecto las otras se puede medir el desplazamiento y calcular la fuerza.
+
+#### Accelerometro
+
+Mide la fuerza que actua en el smartphone y la masa inercial. Se puede construir con un muelle microscópico y una bolita microscópica por cada eje. Entonces el acelerometro traduce este movimiento a una fuerza que puede ser medida. La lectura del acelerometro en un dispositivo en reposo encima de una mesa con la pantalla hacia arriba seria `x,y,z = 0,0,-9.8` ya que el eje z esta sufriendo la fuerza de la gravedad hacia abajo.
+
+La principal complicación del uso del acelerometro es que mide la aceleración de la gravedad (vertical) y la aceleración lineal del dispositivo y se molestan entre ellas. Ambas son indistingibles, el acelerometro siempre suma las dos. El problema del acelerómetro es cómo separar las dos señales.
+
+Para separarlas podemos filtrar las señales con un filtro paso-alto. La gravedad es una señal paso-bajo, ya que fluctua de forma más lenta. ESto no es suficiente si lo queremos hacer realmente bien, así que deberemos incluir las mediciones de otros sensores para complementarlo.
+
+El acelerometro no nos dice ni la posición ni la velocidad. Pero Pero la velocidad es la integral de la posición y la velocidad es la integral de la posición. Por eso, podemos saber cual es la posición de un móbil si sabemos su posicion incial y su velocidad inicial. Usando el acelerómetro podemos saber la posición de una persona. Esto es teórico, pero al no poder eliminar la gravedad completamente, tenemos un sesgo que nos produce un error. Al hacer integrales el error se acomula creciendo de forma parabólica hasta ser significante.
+
+### Magnetómetro (Sensor de campo magnético)
+
+Es una pequeña brújula que nos indica la dirección del campo magnético de la tierra. El campo magnético no apunta hacia el norte; por ejemplo en Barcelona apunta hacia el norte y hacia la vertical hacia abajo.
+
+El campo en la tierra fluctua constantemente, se debe hacer la media.
+
+Si acercamos el magnetómetro hacia algun elemento metálico grande o magnetizado se distorsionado.
+
+### Giroscopio
+
+Mide la velocidad angurlar de giro del dispositivo en cada uno de los ejes de coordenadas. Mide rotaciones, pero no mide desplazamientos. Te da la velocidad de rotación respecto cada uno de los ejes.
+
+Los giróscopos son muy buenos calculando la velocidad angular de rotación, pero normalmente tienen un drift. Eso significa que aúnque este en reposo indican una rotación inexistente muy lenta entorno a un eje.
+
+### Conclusión
+
+Los acelerometros pueden medir la aceleración lineal, pero con el error de la gravedad. Al tener el móvil en la mano y al ser inestable se va a sumar la inestabilidad con la gravedad, por lo que los movimientos precisos son muy complicados para el acelerómetro.
+
+El giróscopo mide rotaciones y no desplazamientos. Mide las rotaciones a corto plazo muy bien. Pero a largo plazo añade un drift.
+
+Si fusiono el Acelerometro y el Giroscopo puedo mejorar los dos. Para eliminar el drift del acelerometro (imprecision de la mano) puedo usar el giroscopio ya que lo va a detectar muy bien. Para eliminar el drift del giroscópio puedo usar el acelerómetro ya que la gravedad en media siempre va a apuntar al mismo sitio (el giroscopio dice que giro, pero el acelerometro dice que no.)
+
+Acelerometro de 6 ejes: Acelerómetro+Giróscopo fusionados para un mejor funcionamiento.
+
+Hay subrutinas en el sistema operativo que procesan todas estar lecturas RAW que hacen todos estos procesamientos para dar lecturas correctas.
+
+Los sensores raw devuelven vectores de 3 valores uno para cada componente.
+
+Los sensores sintéticos son los que ya nos devuelven la información procesada. 
+
+- El sensor de gravedad nos devuelve un vector 3D indicando la magnitud y dirección de la gravedad. 
+- El acelerometro nos devuelve un vector 3D representando la aceleración de cada eje excluyendo la gravedad. 
+- El sensor de rotación representa la orientación del disositivo con una combinación de un ángulo y un eje en el que el dispositvo ha sido rotado entorno al eje. 
+- Sensor de movimiento significativo indica cuando hay un movimiento suficientemente importante. 
+- También hay un sensor de podómetro.
+- Cámaras
+- Luminosidad
+- Proximidad
+
+## Rotaciones: Orientación Relativa y Absoluta
+
+### Rotaciones 3D
+
+No son commutativas, si cambiamos el orden del giro no es lo mismo.
+
+1. La rotación se define como un eje de giro y un angulo de rotación respecto ese eje (Teorema de Euler).
+2. Uso de quaterniones para representar la rotación. Una generalización de la cuestion de los números complejos.
+
+**Teorema de Euler**: En un espacio 3D cualquier desplazamiento de un cuerpo rígido tal que un punto del cuerpo rígido se mantiene fijo es equivalente a una sola rotación alrededor de un eje que gira a través del punto fijo. Se puede representar como una rotación alrededor de un cierto eje `v` y un ángulo respecto ese eje. Una rotación 3D siempre deja 2 puntos fijos.
+
+**Quaterniones**: `q=x+ix+jy+kz` es una generalización de los números complejos a 4D. Los números complejos tiene dos partes: real e imaginaria y los cuaterniones tienen representación en 4D: parte real (w) y 3 partes imaginarias (i, j, k). 
+
+### Rotaciones relativas
+
+La rotación relativa es aquella relativa al própio dispositivo sin tener en cuenta el mundo exterior. Esto se usa cuando se quiere ignorar la posición del dispositivo relativa a la tierra ya que no se necesita. Cuando esta quieto hay una pequeña rotación a cámara lenta debida a la composición de los própios sensores.
+
+Se necesita una corrección del drift ya que si no cuando el móvi esta quieto se puede creer que está rotando ligeramente entorno a un eje aleatorio.
+
+El giróscopo es muy bueno para indicar rotaciones relativas a corto plazo. En Android el sensor TYPE_GYROSCOPE te retorna la velocidad angular instantanea en los tres ejes en rad/sec. Podemos convertir estas medidas en cuaterniones rotación instantánea para un tiempo corto con una fórmula estudiada en clase.
+
+### Rotaciones absolutas
+
+Usamos la matriz de rotación. La idea básica es encontrar el este,norte y perpendicular a la tierra (gravedad) en coordenadas del dispositivo. Si los tenemos y los ponemos como vectores columna de la matriz de giro y esta matriz nos cambia de coordenadas de la tierra a coordenadas del dispositivo.
+
+La brújula no apunta al norte, apunta en parte hacia el norte y en parte en vertical (en el caso de Barcelona, varia según el campo magnético de la tierra). El acelerómetro nos dice el vertical respecto la tierra si no hay movimientos rápidos y hemos filtrado. Entonces a partir de estas dos lecturas podemos calcular el este haciendo el producto vectorial de estos dos vectores para obtener la perpendicular (`g` (magnet )*`v` (aceler)).
+
+## Redes Celulares (4G / LTE, 2G y 3G)
+
+**Redes multihop**
+
+Son redes creadas a partir de comunicar nodos a través de antenas cercanas que se comunican entre ellas.
+
+![](https://i.imgur.com/4xNPICj.png`)
+
+Son ventajosas pero tienen problemas de throughput y no pueden ser muy grandes. Se usan con pocos nodos.
+
+**Redes infraestructura**
+
+El dispositivo se comunica con una estaicón base que se comunica con otras estaciones base (antena) a través de cable. Solo hay comunicación inalámbrica en el primer y último salto.
+
+Son las más usadas. 2G, 3G, 4G etc. se basan en este tipo de infraestructuras.
+
+Las estaciones base deben tener cobetura en un espacio llamado célula. Cuando un nodo pasa de una célula a la otra se llama **handover**. Las células reales tienen formas complicadas, no son exagonales. Para aumentar la capacidad del canal se usan antenas direccionales que crean sectores. Por ejemplo sectores de 120 grados con 3 antenas. Las antenas urbanas tienen coberturas de cientos de metros.
+
+El tamaño de las células es un parámetro importante. Si tienes celulas grandes es mejor porque es más barata, pero la capacidad agregada es más pequeña.
+
+En zonas densamente pobladas donde hay mas usuarios por m² las celulas son más pequeñas pero hay más handoffs, más torres y una red backbone más grande, por lo que son mas caras.
+
+Estas células se deben conectar a una red fija (backbone) que mantiene el operador que son commutadores, routers, etc. que permiten la operación de la red. Además hay routers con conexión a internet.
+
+### Acceso múltiple
+
+#### TDMA Acceso Múltiple por Divisón de Tiempo
+
+**Síncrono**
+Se establece una trama con canales que se repite de forma periódica y los canales se asignan a distintos usuarios.
+
+**Estadístico**
+Se establece un mecanismo por el cual los usuarios pueden acceder sin un órden prefijado (Protocolos de acceso al medio). 
+
+Los usuarios transmiten en tiempos distintos con la misma frecuencia portadora. Por eso es por división de tiempo.
+
+#### FDMA División de Frecuencia
+
+Los usuarios transmiten simultáneamente con frecuencias portadoras distintas (2G, 2.5G, 4G...)
+
+--
+
+Cada una tiene sus pros y sus contras. 
+
+En TDMA los usuarios opcupan el canal en tiempos distintos pero las frecuencias se solapan, usan todo el ancho de banda. Los símbolos tienen una duración de 1/Bw, pero al repartir el canal la velocidad de transmisión se reduce en `n` usuarios.
+
+En FDMA todos transmiten a la vez, pero con símbolos de mayor longitud Bw = 1/NT, pero le ancho de banda se debe repartir en `n` subbandas cada una de tamaño `1/n`.
+
+La velocidad y ancho de banda son equivalentes en ambos sistemas.
+
+#### CDMA Code Division Multipe Access
+
+Se envían símbolos a la vez y con la misma frecuencia. Para separar los símbolos usaremos códigos Ortogonales. 
+
+Para esto se usan productos escalares aprovechando las propiedades que estos tienen. Si los dos vectores escalares son ortogonales entre si, su producto escalar es 0.
+
+Si tenemos 3 códigos de N=4 deberemos comprobar que los 3 son ortogonales. Para N=4 el máximo de códigos ortogonales que podemos encontrar es `N`, por lo tanto esto es un limitante en cuanto al número de usuarios simultáneos. Para encontrar el 4o vector ortogonal aprovechamos las propiedades de los productos escalares y aplicar:
+
+![](https://i.imgur.com/9z1U2mD.png)
+
+Este truco se usa en CDMA para el acceso múltiple. Las estaciones usan cada una un código, cuando una estación quiere enviar un bit lo multiplica por el código.
+
+Si las transmisiones se hacen de forma síncrona y todas tienen el mismo nivel de potencia recibida, podemos combinar los códigos de todos los dispositivos en uno solo y luego la estacion base podrá recuperar esos bits transmitidos por cualquiera de los usuarios.
+
+![](https://i.imgur.com/Shk7blq.png)
+
+Las propiedades son un híbrido entre FDMA y TDMA en cuanto a tiempo y uso de la frecuencia. Para un mismo ancho de banda la capacidad es igual que en los casos anteriores, pero tecnologicamente tiene ventajas e inconvenientes.
+
+---
+
+El cambio de versión entre 2G/2.5G --> 3G --> 4G --> 5G se necesita un cambio de chipset ya que no hay compatibilidad hacia atrás. Cuando distintos usuarios están en una mísma celula se hace multiplexación de canales entre los usuarios. Hay canales individuales para cada usuario `Tráfico: info usuario` y `Control`. También hay canales comunes `Control Común`, `Paging: señalización de una nueva llamada`, `Random Access Channel: user request use of channel` y `Broadcast Control: información para todos los usuarios: BS id, etc.`.
+
+#### 4G (LTE)
+
+Aumenta la capacidad de cada célula y mayor capacidad de transmisión para cada usuario. También hay mejoras en la latencia que se ve reducida.
+
+Las bandas de frecuencia son más grandes y más flexibles: de 1.4MHz a 20MHz.
+
+El acceso es distinto en el Downlink (OFDMA) y en el Uplink (UL). También se mejora la eficiencia espectral con el uso de MIMO y scheduling. En LTE como más cerca de la antena mejor es la velocidad de transmisión y se reduce con la distancia.
+
+> OFDMA: Basado en OFDM pero con varios usuarios. Los tiempos de símbolo largos limitan las interferencias entre símbolos debidas al multipath (recordar OFDM). Como tenemos un número de subportadoras grande podemos jugar con esto para mejorar la calidad del servicio. La atenuación es distinta según la posición del usuario pero se puede asignar la mejor subportadora para cada usuario.
+> 
+> **Problemas**
+> 
+> La fluctuación en amplitud es muy grande (PAPR alto). Por esto requerimos que los amplificadores de potencia tengan un mayor consumo.
+> 
+> En el uplink las subportadoras son generadas por los dispositivos de los usuarios por lo que puede haber pequeños drifts que pueden crear interferencias enter subcanales. Por eso en el uplink se sua SC-FDMA, se utiliza una única subportadora que transmite símbolos más pequeños. Esto provoca interferencias entre símbolos pero que se soluciona con algunas técnicas alternativas no estudiadas.
+
+Cada usuario sufrirá una atenuación multitrayecto distinta, por eso se pueden elegir subportadoras según las condiciones del usuario. En LTE se usa un algoritmo de scheduling para asignar estas frecuencias distintas a través de Resource blocks (consisten en 12 subportadoras consecutivas separadas 15KHz en cada uno de los cuales se transmiten 7 símbolos OFDM) asignados a los usuarios y que se van cambiando según las necesidades.
+
+## Mobile Packet Core
+
+**Roaming** Capacidad de la red de saber que un usuario se está moviendo. Para esto el usuario debe tener una funcionalidad de discovery para que sepa en qué celula se encuentra. El nodo debe ser capaz de registrarse con la red para indicar su situación. En 4G es una base de datos llamado HSS (Home Scaner Server). Una vez el usuario está registrado la red debe ser capaz de localizarlo para enviarle los paquetes.
+
+En 4G se simplifica el packet core y se elimina la parte de commutación de circuitos y solo se usa la commutación de paquetes.
+
+![](https://i.imgur.com/of0WEd1.png)
+
+- `SGW - Serving Gateway` se encargan de gestionar la mobilidad de los usuarios según van cambiando de nodo y establecen un tunel con el PGW para que se puedan dirigir al usuario que quieren. 
+- `PGW - Packet Data Network Gateway` es el router que nos da acceso a internet o a la red de voz además de filtrado de paquetes y gestión de recursos por usuario.
+- `MME - Mobility Management Entity` se encarga de la señalización y control de funciones para permitir el tracking, paging, roaming y handovers.
+- `HSS - Home Suscriber Server` se encarga de las funciones del HLR y el AuC (Home Location Register) y (Authentication Center).
