@@ -49,21 +49,6 @@ Resum amb el contingut més important de cara a l'exàmen final. Elaborat 1 dia 
     - [4G (LTE)](#4g-lte)
 - [Mobile Packet Core](#mobile-packet-core)
 
-- [Wireless Communication](#wireless-communication)
-  - [Introducción](#introducción)
-- [Transmisión a distancia mediante radio](#transmisión-a-distancia-mediante-radio)
-  - [Las Señales](#las-señales)
-  - [Atenuación](#atenuación)
-  - [Atenuación](#atenuación)
-  - [Ruido](#ruido)
-  - [Modulación multinivel](#modulación-multinivel)
-  - [Códigos de corrección de errores](#cdigos-de-corrección-de-errores)
-  - [Capacidad del canal](#capacidad-del-canal)
-- [OFDM y MIMO](#ofdm-y-mimo)
-  - [Modulación Multiportadora](#modulación-multiportadora)
-  - [OFDM (Overlapping Channels)](#ofdm-overlapping-channels)
-  - [MIMO](#mimo)
-
 ## Wireless Communication
 
 ### Introducción
