@@ -1,6 +1,6 @@
 # Resum IM - Complet
 
-Resum amb el contingut més important de cara a l'exàmen final. Elaborat 1 dia abans d'aquest.
+Resum amb el contingut més important de cara a l'exàmen final.
 
 ## Continguts
 # Table of contents
